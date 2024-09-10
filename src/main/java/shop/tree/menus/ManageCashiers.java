@@ -1,7 +1,5 @@
 package shop.tree.menus;
-
 import java.util.Scanner;
-
 import shop.utils.MenuUtilities;
 
 public class ManageCashiers implements Menu {

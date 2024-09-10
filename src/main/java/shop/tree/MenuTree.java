@@ -3,9 +3,10 @@ package shop.tree;
 import shop.tree.menus.*;
 
 public class MenuTree {
+    public static MenuTree instance;
     private TreeNode currentNode;
 
-    public MenuTree() {
+    private MenuTree() {
         Menu mainMenu = new MainMenu();
         Menu customerMenu = new CustomerMenu();
         Menu adminMenu = new AdminMenu();
@@ -30,20 +31,28 @@ public class MenuTree {
         this.traverseTree();
     }
 
+    public static synchronized MenuTree getInstance()
+    {
+        if(instance == null) {
+            instance = new MenuTree();
+        }
+        return instance;
+    }
+
     private void goToNextNode(int key) {
-        this.currentNode = this.currentNode.next.get(key);
+        this.currentNode = this.currentNode.getNextNode(key);
     }
 
     private void goToPreviousNode() {
-        this.currentNode = this.currentNode.previous;
+        this.currentNode = this.currentNode.getPreviousNode();
     }
 
     private void traverseTree() {
         while(true) {
             int value = this.currentNode.getData();
-            if(value == 0 && this.currentNode.previous == null) {
+            if(value == 0 && this.currentNode.getPreviousNode() == null) {
                 System.exit(0);
-            } else if(value == 0 && this.currentNode.previous != null) {
+            } else if(value == 0 && this.currentNode.getPreviousNode() != null) {
                 this.goToPreviousNode();
             } else {
                 this.goToNextNode(value);
