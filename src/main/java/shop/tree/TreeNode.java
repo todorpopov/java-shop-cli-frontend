@@ -2,7 +2,7 @@ package shop.tree;
 
 import java.util.HashMap;
 
-import shop.tree.menus.Menu;
+import shop.tree.menus.interfaces.Menu;
 
 public class TreeNode {
     private TreeNode previous;
@@ -25,6 +25,10 @@ public class TreeNode {
 
     public TreeNode getNextNode(int key) {
         return this.next.get(key);
+    }
+
+    public Boolean keyExists(int key) {
+        return this.next.containsKey(key);
     }
 
     public TreeNode getPreviousNode() {

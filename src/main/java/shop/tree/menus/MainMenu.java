@@ -1,5 +1,7 @@
 package shop.tree.menus;
 import java.util.Scanner;
+
+import shop.tree.menus.interfaces.Menu;
 import shop.utils.MenuUtilities;
 
 public class MainMenu implements Menu{

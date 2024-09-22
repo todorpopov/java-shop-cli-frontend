@@ -1,8 +1,10 @@
 package shop.tree.menus;
 import java.util.Scanner;
+
+import shop.tree.menus.interfaces.StaticMenu;
 import shop.utils.MenuUtilities;
 
-public class CustomerMenu implements Menu {
+public class CustomerMenu implements StaticMenu {
     public int data(){
         MenuUtilities.clearScreen();
 

@@ -1,14 +1,16 @@
 package shop.tree;
 
 import shop.tree.menus.*;
+import shop.tree.menus.interfaces.Menu;
 
 public class MenuTree {
-    public static MenuTree instance;
+    private static MenuTree instance;
     private TreeNode currentNode;
 
     private MenuTree() {
         Menu mainMenu = new MainMenu();
         Menu customerMenu = new CustomerMenu();
+        Menu enterShopMenu = new EnterShopMenu();
         Menu adminMenu = new AdminMenu();
         Menu manageShops = new ManageShops();
         Menu manageItems = new ManageItems();
@@ -16,12 +18,14 @@ public class MenuTree {
 
         TreeNode mainMenuTreeNode = new TreeNode(null, mainMenu);
         TreeNode customerMenuTreeNode = new TreeNode(mainMenuTreeNode, customerMenu);
+        TreeNode enterShopMenuTreeNode = new TreeNode(customerMenuTreeNode, enterShopMenu);
         TreeNode adminMenuTreeNode = new TreeNode(mainMenuTreeNode, adminMenu);
         TreeNode manageShopsTreeNode = new TreeNode(adminMenuTreeNode, manageShops);
         TreeNode manageItemsTreeNode = new TreeNode(adminMenuTreeNode, manageItems);
         TreeNode manageCashiersTreeNode = new TreeNode(adminMenuTreeNode, manageCashiers);
 
         mainMenuTreeNode.addToNext(1, customerMenuTreeNode);
+        customerMenuTreeNode.addToNext(1, enterShopMenuTreeNode);
         mainMenuTreeNode.addToNext(2, adminMenuTreeNode);
         adminMenuTreeNode.addToNext(1, manageShopsTreeNode);
         adminMenuTreeNode.addToNext(2, manageItemsTreeNode);
@@ -31,7 +35,7 @@ public class MenuTree {
         this.traverseTree();
     }
 
-    public static synchronized MenuTree getInstance()
+    public static MenuTree getInstance()
     {
         if(instance == null) {
             instance = new MenuTree();
@@ -40,7 +44,11 @@ public class MenuTree {
     }
 
     private void goToNextNode(int key) {
-        this.currentNode = this.currentNode.getNextNode(key);
+        if(!this.currentNode.keyExists(key)) {
+            this.goToPreviousNode();
+        } else {
+            this.currentNode = this.currentNode.getNextNode(key);
+        }
     }
 
     private void goToPreviousNode() {
